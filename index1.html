@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Daily Supervisor Checklist</title>
+    <style>
+      /* Add some basic styles */
+      table {
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 5px 10px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #d9d9d9;
+      }
+
+      /* Style the checkboxes */
+      input[type="checkbox"] {
+        transform: scale(1.5);
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <!-- Loop through 31 days to add date headers -->
+          <script>
+            for (var i = 1; i <= 31; i++) {
+              document.write('<th>' + i + '</th>');
+            }
+          </script>
+        </tr>
+      </thead>
+      <tbody>
+        <script>
+          // Define items array
+          var items = [
+            "Item 1",
+            "Item 2",
+            "Item 3",
+            "Item 4",
+            "Item 5",
+            "Item 6",
+            "Item 7",
+            "Item 8",
+            "Item 9",
+            "Item 10"
+          ];
+
+          // Loop through items to add rows
+          for (var i = 0; i < items.length; i++) {
+            document.write('<tr>');
+            document.write('<td>' + items[i] + '</td>');
+            // Loop through 31 days to add checkboxes
+            for (var j = 1; j <= 31; j++) {
+              var checked = localStorage.getItem('item' + (i+1) + '_' + j) === 'true' ? 'checked' : '';
+              document.write('<td><label for="item' + (i+1) + '_' + j + '"><input type="checkbox" name="item' + (i+1) + '_' + j + '" id="item' + (i+1) + '_' + j + '" ' + checked + '></label></td>');
+            }
+            document.write('</tr>');
+          }
+
+          // Save checkbox state on change
+          var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+          for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('change', function(event) {
+              var name = event.target.name;
+              var checked = event.target.checked;
+              localStorage.setItem(name, checked);
+            });
+          }
+        </script>
+      </tbody>
+    </table>
+
+    <button onclick="printPage()">Print</button>
+
+    <script>
+      function printPage() {
+        window.print();
+      }
+    </script>
+  </body>
+</html>
